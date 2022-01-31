@@ -1,0 +1,102 @@
+
+Collection subclass: Bst [
+  "Binary search tree class
+
+  Using the Node class (reverse) ---changing it if necessary
+
+  build a binary search tree class supporting
+
+  insertion, search, traversal, removal (challenging)
+
+  You decide the instance variable(s)
+  and API (methods).  Here are some suggestions
+  but you're free to do something else.
+
+  You might inspect Collection for ideas of other methods to implement.
+
+  "
+  init [
+     "Initialize the instance variables for an empty tree"
+  ]
+
+  add: item [
+    "Add item to this tree"
+
+  ]
+  contains: item [
+    "answer whether (true/false) this tree contains item"
+  ]
+  search: item [
+    "answer information about where item is located in the tree.
+     (vague on purpose)"
+  ]
+  remove: item ifAbsent: aBlock [
+    "remove item from tree, or do the block if it's not there."
+  ]
+  remove: item [
+    self remove: item ifAbsent: [
+      self error: 'Invalid argument ', item asString, ': object not found'
+    ]
+  ]
+
+  do: aBlock [
+    "Evaluate aBlock on each value of the tree"
+  ]
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Object subclass: Node [
+  | data left right |
+  printOn: astream [
+    astream << self data << $(.
+    self left printOn: astream.
+    astream << ' '.
+    self right printOn: astream.
+    astream << $)
+  ]
+  "getters"
+  data [ ^data ]
+  left [ ^left ]
+  right [ ^right ]
+  "setters"
+  data: d [ data := d ]
+  left: l [
+    l isKindOf: Node ifFalse: [self error: 'setting left to non-node'].
+    left := l
+  ]
+  right: r [
+    r isKindOf: Node ifFalse: [self error: 'setting right to non-node'].
+    right := r
+  ]
+
+  do: aBlock [
+    "evaluate aBlock on this Node's data"
+    aBlock value: data
+  ]
+]
+
+Node class extend [
+   data: d [
+     |obj|
+     obj := super new.
+     obj data: d.
+     ^obj
+   ]
+   data: d left: l right: r [
+     |result|
+     result := self data: d.
+     result left: l; right: r.
+     ^result
+   ]
+]
